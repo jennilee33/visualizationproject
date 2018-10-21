@@ -14,13 +14,14 @@ library(DT)
 shinyUI(
 
 dashboardPage(
-  dashboardHeader(title = "Dashboard"),
+  dashboardHeader(),
   dashboardSidebar(
     sidebarUserPanel("Customer and Product Dashboard" #***make an enter to show whole line
                      ), 
     sidebarMenu(
       menuItem("Customer", tabName = "customer", icon = icon("fal fa-users")), 
-      menuItem("Product", tabName = "product", icon = icon("fas fa-map"))) 
+      menuItem("Product", tabName = "product", icon = icon("fas fa-map")),
+      menuItem("Data", tabName = "data", icon = icon("calculator")))
   ),
     dashboardBody(
       tabItems(
@@ -43,39 +44,38 @@ dashboardPage(
                   round(mean(customer.invoices$invoices),digits=0), 
                   icon = icon("fas fa-list-alt"))
         ),
-        #within customer tab end of icons
         
-
-      #               ),
-      headerPanel("Customer Trends"),
-      
-      mainPanel(
+      headerPanel("Customer Trends"), 
+      br(),
+      br(),
+      br(),
         
+      #   fluidRow(  
+      #     checkboxInput(
+      #     inputId = "pageable", 
+      #     label = "Pageable"),
+      #   
+      #     conditionalPanel("input.pageable==true",
+      #         numericInput(inputId = "pagesize",
+      #         label = "Customers per Page",10)
+      #     )    
+      #     ,
+      # 
+      #         htmlOutput("customer1")
+      #    
+      # ),
+           # box(#column(4,
+       fluidRow(
+              htmlOutput("customermap")
+                
+            #  )
+           )
           
-          checkboxInput(
-          inputId = "pageable", 
-          label = "Pageable"),
-        
-          conditionalPanel("input.pageable==true",
-              numericInput(inputId = "pagesize",
-              label = "Customers per Page",10)
-          )    
-          ,
+          
       
-          fluidRow(
-            box(htmlOutput("customer1")
-                )
-            ,
-            box(htmlOutput("customermap")
-                )
-          )
           
           
-          )
       
-      
-      
-
       
       ),
       #end of customer tab
@@ -106,21 +106,84 @@ dashboardPage(
        #               label = "Country",
        #               choices = unique(productplot1$Country))
        #   ),
-         
-      mainPanel(
-        fluidRow(
-          # box(htmlOutput("productPlot")),
-          box(
-            htmlOutput("productplotxx"),
-            width=800,height=400)
+       
+      # #    
+      #  sidebarPanel(
+        # fluidRow(
+        #   # box(htmlOutput("productPlot")),
+        #   
+        #     htmlOutput("productplotxx")),
+        # br(),
+        # 
+        #     fluidRow(
+        #       # box(htmlOutput("productPlot")),
+        #     
+        #         htmlOutput("productplotxx2")
+        #   
+        #    
+        # 
+        # ),
         
+        h3("Country"),
+        tags$head(
+          tags$style(HTML("
+
+     .multicol {
+        
+        height: 200px;
+        width: 800px;
+
+       -webkit-column-count: 3; /* Chrome, Safari, Opera */
+
+       -moz-column-count: 3; /* Firefox */
+
+       column-count: 3;
+
+     }
+
+   "))
+          
         )
-      )   
+        
+      ,
+        
+        
+        fluidRow(
+          checkboxInput('bar', 'Select All'),
+          tags$div(class = "multicol", 
+          checkboxGroupInput("checkGroup", 
+                             label = NULL, 
+                             choices = product.map$Country,
+                             selected = NULL,
+                             inline = TRUE)
+          )                        
+        
+      ),
+      br(),
+  #  mainPanel(
+      fluidRow(
+        plotOutput("productplotchecks")
+  #    )
+    )  
+      ),
+#end of product tab
+#start of data tab
+    tabItem(
+      tabName = "data",
+      fluidRow(
+        
+      ),
+      headerPanel("Data"),
+      # mainPanel(
+        fluidRow(DT::dataTableOutput("table")
     )
+    # )
   )
 )
 )
 )
+)
+
 
 #fluidRow(
 #  box(htmlOutput("customer1"),

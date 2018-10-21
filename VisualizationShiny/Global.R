@@ -3,6 +3,8 @@
 library(data.table)
 library(dplyr)
 library(datasets)
+library(plotly)
+
 VisualizationShiny <- fread(file = "./data/data.csv") #reads UK retailer data
 
 #determines summary of customer spend OVERALL not per invoice
@@ -66,10 +68,12 @@ productplot1=
 #determines country backup plot
 customer.map = 
   VisualizationShiny %>%
-  group_by(., Country,CustomerID) %>%
-  summarise(., totcust = length(CustomerID)) #sums all products for each customer
-#summary(customer.products)
-head(customer.map)
+  mutate(., CustomerID2 = 1)%>%
+  filter(., Quantity>0)%>%
+  filter(., InvoiceNo >0)%>%
+  group_by(., Country,CustomerID2) %>%
+  summarise(., TotalCustomers = length(unique(CustomerID))) #sums all products for each customer
+#head(customer.map)
 
 #determines country backup plot
 product.map = 

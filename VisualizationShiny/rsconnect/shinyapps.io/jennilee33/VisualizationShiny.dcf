@@ -5,8 +5,8 @@ account: jennilee33
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 516426
-bundleId: 1645676
+bundleId: 1654548
 url: https://jennilee33.shinyapps.io/VisualizationShiny/
-when: 1539698786.10847
+when: 1540159134.18776
 asMultiple: FALSE
 asStatic: FALSE
